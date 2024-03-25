@@ -7,8 +7,8 @@ const dbConnection = async () => {
 
   try {
     const connection = await mongoose.connect(env.MONGODB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
       ssl: true,
     });
     const dbName = connection.connections[0].name;
@@ -20,4 +20,4 @@ const dbConnection = async () => {
   }
 };
 
-module.exports = dbConnection;
+module.exports = { dbConnection };
