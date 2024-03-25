@@ -16,10 +16,7 @@ const classRoomSchema = new Schema({
       message: (props) => `Classroom name cannot be an empty string.`,
     },
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+
   capacity: {
     type: Number,
     required: true,

@@ -15,7 +15,9 @@ const classroomView = async (req, res) => {
     await add
       .save()
       .then((doc) => {
-        return res.send({ message: "added successfully", success: true });
+        return res
+          .status(201)
+          .send({ message: "added successfully", success: true });
       })
       .catch((err) => {
         console.log(err, "errr");
@@ -39,7 +41,7 @@ const classroomwDeleteView = async (req, res) => {
     const deleteClassroom = await classroomModel
       .deleteOne({ _id: new Object(id) })
       .then((doc) => {
-        return res.send({ message: "deleted  successfully", success: true });
+        return res.send({ message: "deleted successfully", success: true });
       })
       .catch((err) => {
         console.log(err, "errr");
