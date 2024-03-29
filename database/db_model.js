@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
-const dbConnection = require("./db_config");
+const { dbConnection } = require("./db_config");
 
-const findOneModel = async (referenceValue, model, getValue = null) => {
+const findOneModel = async (referenceValue, db_collection, getValue = null) => {
   try {
-    const result = await User.findOne(referenceValue, getValue);
+    const db = await dbConnection();
+    const collection = db.collection(db_collection);
+
+    const result = await collection.findOne(referenceValue, getValue);
 
     if (result !== null) {
       return result;

@@ -1,24 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const classDetailsSchema = new Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
-  from: {
-    type: Date,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  to: {
-    type: Date,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-});
 
 // Define the student schema
 const studentSchema = new mongoose.Schema({
