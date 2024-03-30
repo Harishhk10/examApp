@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
-const { universityAddData } = require("../model");
-const { StudentsSignUpView } = require("../students/models");
+const { userModel } = require("../users/model");
+const { ObjectId } = require("mongodb");
+
 const verifyToken = (req, res, next) => {
   const authHeaders = req.headers.authorization;
 
@@ -10,18 +11,12 @@ const verifyToken = (req, res, next) => {
   const token = authHeaders.split(" ")[1];
   jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decode) => {
     if (err) {
-      return res.status(403).json({ message: "Invalid token" });
+      return res
+        .status(403)
+        .json({ message: "Invalid token or token expired" });
     }
-    if (decode["role"] === "university") {
-      data = universityAddData;
-    } else if (decode["role"] === "student") {
-      data = StudentsSignUpView;
-    } else {
-      return res.status(403).json({ message: "malfunction" });
-    }
-
-    const revokedToken = await data.findOne({
-      _id: decode.id,
+    const revokedToken = await userModel.findOne({
+      _id: new ObjectId(decode.user.id),
       accessToken: token,
     });
 
@@ -29,7 +24,7 @@ const verifyToken = (req, res, next) => {
       return res.status(401).json({ message: "revoked token found" });
     }
 
-    const user = await data.findOne({ _id: decode.id });
+    const user = await userModel.findOne({ _id: new ObjectId(decode.user.id) });
 
     if (!user) {
       return res.status(401).json({ message: "unauthorized" });
